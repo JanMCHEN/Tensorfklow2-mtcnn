@@ -1,2 +1,2 @@
-# Tensorfklow2-mtcnn
-mtcnn论文tensorflow2完整复现
+# MTCNN-TensorFlow-2
+人脸检测， mtcnn论文简单复现
