@@ -40,6 +40,7 @@ class Detector:
         bboxes = []
         scores = []
 
+        # 以12*12为1个单元，将最小人脸调整成12*12大小，而后图像金字塔检测缩放至12，即从检测多个人脸到最后检测一个人脸
         img = self._img_resize(inputs, 12/minsize)
 
         # 图像金字得到所有预选框
