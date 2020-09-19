@@ -7,7 +7,7 @@ import cv2
 
 from mtcnn.model import PNet, RNet, ONet
 from settings import CHECKPOINT_DIR
-from utils import nms, convert_to_square, pad
+from utils import mark_img, nms, convert_to_square, pad, rect_img
 
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -181,21 +181,18 @@ class Detector:
 
 if __name__ == '__main__':
     det = Detector()
-    img = cv2.imread('../test.jpg')
-    boxes, score, *marks = det.predict(img, net=3)
+    for img_name in sys.argv[1:]:
+        img = cv2.imread(img_name)
+        boxes, score, *marks = det.predict(img, net=3)
 
-    print(len(boxes), 'faces has been detected!!')
-    for x1, y1, x2, y2 in boxes:
-        img = cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0))
+        print(len(boxes), 'faces has been detected!!')
+        img = rect_img(img, boxes)
 
-    # 关键点位置
-    if marks:
-        for mark in marks[0]:
-            for i in range(5):
-                img = cv2.circle(img, (mark[i, 0], mark[i, 1]), 2, (0, 255, 255), -1)
+        # 关键点位置
+        if marks:
+            img = mark_img(img, marks[0])
 
-    cv2.imshow('aaa', img)
-    cv2.waitKey(10000)
+        cv2.imwrite(img_name.split('.')[0]+'_ed.png', img)
 
 
 
