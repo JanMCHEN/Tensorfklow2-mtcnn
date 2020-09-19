@@ -15,6 +15,20 @@ def img_show(img, boxes, marks=None, delay=0):
     cv2.imshow('nan', img)
     return cv2.waitKey(delay)
 
+def rect_img(img, boxes, colors=None):
+    if colors is None:
+        colors = (255, 0, 0)
+    for x1, y1, x2, y2 in boxes:
+        img = cv2.rectangle(img, (x1, y1), (x2, y2), colors)
+    return img
+
+def mark_img(img, marks):
+    for mark in marks:
+        for i in range(5):
+            img = cv2.circle(img, (mark[i, 0], mark[i, 1]), 2, (0, 255, 255), -1)
+
+    return img
+
 
 def gen_face_img_data(label, impath):
     """人脸框"""
